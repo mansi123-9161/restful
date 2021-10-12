@@ -1,6 +1,7 @@
 package com.mansi.webservice.restful.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mansi.webservice.restful.bean.HelloWorldBean;
@@ -24,4 +25,8 @@ public class HelloWorldController {
 		return new HelloWorldBean("Hello World from bean");
 	}
 
+	@GetMapping(path ="/helloWorld-bean/path/{name}")
+	public HelloWorldBean helloWorldPthVarible(@PathVariable String name) {
+		return new HelloWorldBean("Hello World from pathvar %s"+ name);
+	}
 }
