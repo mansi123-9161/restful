@@ -7,6 +7,10 @@ import javax.persistence.PostLoad;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,11 +35,16 @@ public class UserController {
 	}
 	//retrieve 1 user
 	@GetMapping("users/{id}")
-   public UserBean returnUser(@PathVariable int id) {
+   public  EntityModel<UserBean> returnUser(@PathVariable int id) {
 	   UserBean user = userDaoService.findOne(id);
 	   if(user == null)
 		   throw new UserNotFoundException("id+" + id);
-	   return user;
+	   EntityModel<UserBean> modal = EntityModel.of(user);
+	   
+	   //creating links
+	   WebMvcLinkBuilder linkToUsers = linkTo(methodOn(this.getClass()).returnAllUsers());
+	   modal.add(linkToUsers.withRel("all=-users"));
+	   return modal;
    }
 	
 	@PostMapping("/users")
