@@ -2,6 +2,7 @@ package com.mansi.webservice.restful.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -35,6 +36,18 @@ public class UserDaoService {
 		for(UserBean user: users) {
 			if(user.getId()== id)
 				return user;
+		}
+		return null;
+	}
+	
+	public UserBean deleteById(int id) {
+		Iterator<UserBean> iterator = users.iterator();
+		while(iterator.hasNext()) {
+			UserBean user = iterator.next();
+			if(user.getId()== id) {
+				iterator.remove();
+			return user;
+			}
 		}
 		return null;
 	}

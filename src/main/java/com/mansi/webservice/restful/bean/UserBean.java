@@ -2,10 +2,15 @@ package com.mansi.webservice.restful.bean;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class UserBean {
 
 	private Integer id;
+	@Size(min = 2, message = "name should have atleast 2 charectors")
 	private String name;
+	@Past
 	private Date birthDate;
 	
 	public Integer getId() {
