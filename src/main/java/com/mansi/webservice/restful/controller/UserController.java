@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.mansi.webservice.restful.bean.UserBean;
+import com.mansi.webservice.restful.bean.User;
 import com.mansi.webservice.restful.dao.UserDaoService;
 import com.mansi.webservice.restful.exception.UserNotFoundException;
 
@@ -30,16 +30,16 @@ public class UserController {
 	private UserDaoService userDaoService;
 	//retrieve all users
 	@GetMapping("/users")
-	public List<UserBean> returnAllUsers(){
+	public List<User> returnAllUsers(){
 		return userDaoService.findAll();
 	}
 	//retrieve 1 user
 	@GetMapping("users/{id}")
-   public  EntityModel<UserBean> returnUser(@PathVariable int id) {
-	   UserBean user = userDaoService.findOne(id);
+   public  EntityModel<User> returnUser(@PathVariable int id) {
+	   User user = userDaoService.findOne(id);
 	   if(user == null)
 		   throw new UserNotFoundException("id+" + id);
-	   EntityModel<UserBean> modal = EntityModel.of(user);
+	   EntityModel<User> modal = EntityModel.of(user);
 	   
 	   //creating links
 	   WebMvcLinkBuilder linkToUsers = linkTo(methodOn(this.getClass()).returnAllUsers());
@@ -48,8 +48,8 @@ public class UserController {
    }
 	
 	@PostMapping("/users")
-	public ResponseEntity<Object> createUser(@Valid @RequestBody UserBean userBean) {
-		UserBean savedUser = userDaoService.saveUser(userBean);
+	public ResponseEntity<Object> createUser(@Valid @RequestBody User userBean) {
+		User savedUser = userDaoService.saveUser(userBean);
 		
 		URI location = ServletUriComponentsBuilder
 				       .fromCurrentRequest().path("/{id}").
@@ -60,7 +60,7 @@ public class UserController {
 	
 	@DeleteMapping("users/{id}")
 	   public void deleteUser(@PathVariable int id) {
-		   UserBean user = userDaoService.deleteById(id);
+		   User user = userDaoService.deleteById(id);
 		   if(user == null)
 			   throw new UserNotFoundException("id+" + id);
 	   }

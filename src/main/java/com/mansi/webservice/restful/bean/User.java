@@ -2,11 +2,19 @@ package com.mansi.webservice.restful.bean;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-public class UserBean {
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
+@Entity
+public class User {
 
+	@Id
+	@GeneratedValue
 	private Integer id;
 	@Size(min = 2, message = "name should have atleast 2 charectors")
 	private String name;
@@ -35,7 +43,7 @@ public class UserBean {
 	public String toString() {
 		return "UserBean [id=" + id + ", name=" + name + ", birthDate=" + birthDate + "]";
 	}
-	public UserBean(int id, String name, Date birthDate) {
+	public User(int id, String name, Date birthDate) {
 		super();
 		this.id = id;
 		this.name = name;
